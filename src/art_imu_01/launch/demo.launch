@@ -1,0 +1,26 @@
+<!--
+send_mode: 1:angle   2:full   3:raw   4:quaternion
+init_imu : 1:init  0:Do not init
+serial_rate: 1:200Hz 2:100Hz 3:50Hz 4:20Hz
+-->
+<launch>
+  <node pkg="art_imu_01" type="art_imu_node" name="art_imu_node" required="true" output = "screen">
+    <param name="serial_port" type="string" value="/dev/art_imu"/>
+    <!--param name="serial_rate" type="int" value="2"/-->
+    <param name="imu_rate" type="int" value="80"/>
+    <!--<param name="frame_id" type="string" value="IMU_link"/>-->
+    <!--param name="init_imu" type="int" value="1"/-->
+    <!--param name="send_mode" type="int" value="2"/-->
+  </node>
+
+   <!-- IMU Relay and Filter -->
+     <!-- IMU relay from artrobot_msgs/Imu to sensor_msgs/Imu -->
+    <node pkg="imu_calib" type="apply_calib" name="apply_calib" output="screen" respawn="false">
+        <param name="calib_file" value="$(find imu_calib)/param/imu/imu_calib.yaml" />
+        <param name="calibrate_gyros" value="true" />
+        <param name="frame_id" type="string" value="IMU_link"/>
+
+    </node>
+
+
+</launch>

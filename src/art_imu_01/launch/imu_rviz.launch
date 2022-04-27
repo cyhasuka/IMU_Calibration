@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="use_rviz" default="true" />
+
+    <include file="$(find art_imu_01)/launch/demo.launch" />
+    <!-- Rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find art_imu_01)/rviz/demo.rviz" if="$(arg use_rviz)" />
+</launch>
