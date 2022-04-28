@@ -103,21 +103,19 @@ void ApplyCalib::rawImuCallback(art_msgs::Imu::ConstPtr raw)
     corrected.angular_velocity.x = corrected_gyro[0];
     corrected.angular_velocity.y = corrected_gyro[1];
     corrected.angular_velocity.z = corrected_gyro[2];
-    //校准四元数ori
-    corrected.orientation.x = 0;
-    corrected.orientation.y = 0;
-    // corrected.orientation.x = raw_ori[0] - x_corr;
-    // corrected.orientation.y = raw_ori[1] - y_corr;
-    corrected.orientation.z = raw_ori[2] - z_corr;
-    corrected.orientation.w = raw_ori[3] + w_corr;
+    //不校准四元数ori
+    corrected.orientation.x = raw_ori[0];
+    corrected.orientation.y = raw_ori[1];
+    corrected.orientation.z = raw_ori[2];
+    corrected.orientation.w = raw_ori[3];
 
     if (Corr_time >= 17 && ori_flag)
     { 
         // x_corr = raw_ori[0];
         // y_corr = raw_ori[1];
-        z_corr = raw_ori[2];
-        w_corr = 1 - raw_ori[3];
-        ROS_INFO("Ori bias : [%.3f, %.3f, %.3f, %.3f]", x_corr, y_corr, z_corr,w_corr);
+        //z_corr = raw_ori[2];
+        //w_corr = 1 - raw_ori[3];
+        //ROS_INFO("Ori bias : [%.3f, %.3f, %.3f, %.3f]", x_corr, y_corr, z_corr,w_corr);
         ROS_INFO_STREAM_ONCE("All Calibration Completed. ");
         ori_flag = false;
     }
